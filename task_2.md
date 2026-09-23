@@ -89,6 +89,104 @@ public class ScreenMetrics {
 }
 ```
 
+1)))))))))))))))
+public class DpPxConverter {
+    public static void main(String[] args) {
+        // Входные данные можно задавать через аргументы командной строки или Scanner
+        float sizeDp = 48.0f;
+        float density = 3.0f; // Например, xxhdpi
+
+        int sizePx = Math.round(sizeDp * density);
+        
+        System.out.println(sizeDp + " dp при плотности " + density + " равно " + sizePx + " px");
+    }
+}
+
+
+2))))))))))))
+public class TimestampParser {
+    public static void main(String[] args) {
+        long timestampMs = 7_565_000L; // Пример: 2 часа, 6 минут, 5 секунд
+
+        long totalSeconds = timestampMs / 1000;
+
+        long hours = totalSeconds / 3600;
+        long minutes = (totalSeconds % 3600) / 60;
+        long seconds = totalSeconds % 60;
+
+        System.out.println(hours + " ч " + minutes + " мин " + seconds + " сек");
+    }
+}
+
+
+3)))))
+public class BatteryEstimator {
+    public static void main(String[] args) {
+        double capacityMah = 5000.0;      // Емкость аккумулятора
+        double modemCurrentMa = 150.0;    // Потребление модуля связи
+        double screenCurrentMa = 300.0;   // Потребление дисплея
+
+        double totalConsumptionMa = modemCurrentMa + screenCurrentMa;
+        double hours = capacityMah / totalConsumptionMa;
+
+        System.out.printf("Ориентировочное время работы: %.2f часов%n", hours);
+    }
+}
+
+4))))))))
+public class CoordinateValidator {
+    public static void main(String[] args) {
+        double latitude = -91.0;
+        double longitude = 185.0;
+
+        boolean isLatValid = latitude >= -90.0 && latitude <= 90.0;
+        boolean isLonValid = longitude >= -180.0 && longitude <= 180.0;
+
+        if (isLatValid && isLonValid) {
+            System.out.println("Координаты валидны.");
+        } else {
+            // Используем || для проверки условий ошибки
+            if (!isLatValid) System.out.println("Ошибка: широта вне диапазона [-90.0; 90.0]");
+            if (!isLonValid) System.out.println("Ошибка: долгота вне диапазона [-180.0; 180.0]");
+        }
+    }
+}
+
+5))))))))))
+public class PermissionFlags {
+    private static final int CAMERA = 1;     // 0001 в двоичной системе
+    private static final int LOCATION = 2;   // 0010
+    private static final int STORAGE = 4;    // 0100
+
+    public static void main(String[] args) {
+        int appPermissions = 0; // Изначально все права отключены (0000)
+
+        // Установка прав (включение камеры и доступа к файлам)
+        appPermissions |= CAMERA;
+        appPermissions |= STORAGE;
+        // Текущее состояние: 0101 (CAMERA | STORAGE)
+
+        System.out.println("Права после установки: " + Integer.toBinaryString(appPermissions));
+
+        // Проверка наличия разрешения (есть ли флаг LOCATION?)
+        boolean hasLocation = (appPermissions & LOCATION) != 0;
+        System.out.println("Есть доступ к геолокации? " + hasLocation); // false
+
+        // Проверка нескольких прав сразу (есть ли камера И хранилище?)
+        boolean hasCameraAndStorage = ((appPermissions & CAMERA) != 0) && ((appPermissions & STORAGE) != 0);
+        System.out.println("Есть камера и хранилище? " + hasCameraAndStorage); // true
+
+        // Снятие права (отключаем камеру)
+        appPermissions &= ~CAMERA;
+        // Маска ~CAMERA это ...11111111111111111111111111111110
+        // При И (&) нужный бит зануляется, остальные не меняются
+
+        System.out.println("Права после снятия камеры: " + Integer.toBinaryString(appPermissions)); // 0100
+    }
+}
+
+
+
 ### Задания для закрепления
 
 1. **Конвертер плотности (dp в px):** Напишите программу, принимающую значение размера в `dp` и коэффициент плотности экрана `dpi` (например, 1.5 для hdpi, 2.0 для xhdpi, 3.0 для xxhdpi), и вычисляющую пиксели.
